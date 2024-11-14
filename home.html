@@ -1,0 +1,53 @@
+
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+</head>
+<body></body>
+
+    <section>
+        <h2>Enviar uma Mensagem</h2>
+        <form id="messageForm">
+            <label for="name">Nome:</label>
+            <input type="text" id="name" name="name" required>
+            <br><br>
+            <label for="message">Mensagem:</label>
+            <textarea id="message" name="message" rows="4" required></textarea>
+            <br><br>
+            <button type="submit">Enviar</button>
+        </form>
+    </section>
+
+    <!-- JavaScript para enviar a mensagem ao backend -->
+    <script>
+        document.getElementById('messageForm').addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const name = document.getElementById('name').value;
+            const message = document.getElementById('message').value;
+
+            try {
+                const response = await fetch('/send-message', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ name, message })
+                });
+
+                if (response.ok) {
+                    alert('Mensagem enviada com sucesso!');
+                    document.getElementById('messageForm').reset();
+                } else {
+                    alert('Erro ao enviar a mensagem.');
+                }
+            } catch (error) {
+                console.error('Erro na requisição:', error);
+                alert('Erro ao enviar a mensagem.');
+            }
+        });
+    </script>
+</body>
+</html>
